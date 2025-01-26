@@ -1,0 +1,36 @@
+---
+title: "Resilience of Public Transportation Networks"
+subtitle: "UGE: M2 SIA - NetRes Project Report"
+authors:
+  - name: "Luca Uckermann"
+    affiliation:
+      - id: THK
+        name: "University of Applied Sciences (TH Köln)"
+        city: "Cologne"
+        country: "Germany"
+    corresponding: true
+    email: "luca_simon.uckermann@smail.th-koeln.de"
+    orcid: "0009-0005-2957-6331"
+bibliography: references.bib
+date: last-modified
+number-sections: true
+link-citations: true
+execute:
+  eval: true
+  echo: true
+  output: true
+  warning: false
+  error: false
+  include: true
+
+abstract: |
+  Abstract
+---
+
+# Introduction
+xd
+
+# References
+
+::: {#refs}
+:::
