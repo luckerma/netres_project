@@ -28,7 +28,42 @@ abstract: |
 ---
 
 # Introduction
+
 xd
+
+# Understanding the percolation Theory
+
+## Definition
+
+## Relevance
+
+# Computing multiple quality matrices
+
+## Adjacency matrix
+
+## Quality matrix based on Travel Time
+
+## Quality matrix based on inverse Travel Time
+
+## Quality matrix based on Betweenness centrality
+
+# Main algorithm
+
+## Subfunction updating reachable passengers demand
+
+## Percolation function
+
+## Plotting the results on different Quality matrices
+
+## Evaluating the Alphas
+
+# Conclusion
+
+## Node failures
+
+## New plots
+
+## About resilience
 
 # References
 

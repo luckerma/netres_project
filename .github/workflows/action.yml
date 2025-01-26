@@ -23,6 +23,11 @@ jobs:
         with:
           tinytex: true
 
+      - name: Install extension
+        run: |
+          cd report/
+          quarto add dfolio/quarto-ieee --no-prompt
+
       - name: Render and Publish
         id: github-pages
         uses: quarto-dev/quarto-actions/publish@v2.1.6
