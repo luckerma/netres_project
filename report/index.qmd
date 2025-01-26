@@ -29,7 +29,7 @@ abstract: |
 
 # Introduction
 
-xd
+xd [@hamedmoghadam2021percolation]
 
 # Understanding the percolation Theory
 
