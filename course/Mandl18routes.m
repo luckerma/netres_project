@@ -57,7 +57,7 @@ OD = [...
 %% Plotting the network
 
 % Diected version
-[DAdj ,DwAdj]=ComputeAdj2(ROUTES,TravelLinkTime,Stops); % see Part 2 Question 1
+[Adj, wAdj, qAdj, qInverseAdj]=ComputeAdj2(ROUTES,TravelLinkTime,Stops); % see Part 2 Question 1
 issymmetric(DAdj)
 
 % Unoriented versions
