@@ -234,8 +234,8 @@ window.Quarto = {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>Public transportation networks are essential for enabling urban mobility, connecting people to jobs, schools, health care, and other essential services. However, these networks are vulnerable to disruptions caused by congestion, accidents, maintenance issues, or targeted attacks. Ensuring their resilience (the ability to maintain functionality in the face of such disruptions) is a key priority for city planners. Understanding the impact of disruptions and developing strategies to mitigate them is critical to the design and management of robust transportation systems.</p>
-<p>Percolation theory provides a powerful and structured framework for studying network resilience. By systematically removing components, such as links or nodes, and analyzing the resulting changes in connectivity and performance, percolation theory helps identify critical failure points and assess the robustness of a network. Recent research by Hamedmoghadam et al.&nbsp;(2021) has extended the application of percolation theory to heterogeneous flow demand in networks, emphasizing the functional aspects of resilience alongside structural analysis <span class="citation" data-cites="hamedmoghadam2021percolation">(<a href="#ref-hamedmoghadam2021percolation" role="doc-biblioref">Hamedmoghadam et al. 2021</a>)</span>. This approach provides a more nuanced understanding of network performance under progressive disturbances, particularly in demand-side systems such as public transportation.</p>
+<p>Public transportation networks are essential for enabling urban mobility, connecting people to jobs, schools, health care and other essential services. However, these networks are vulnerable to disruptions caused by congestion, accidents, maintenance issues, or targeted attacks. Ensuring their resilience (the ability to maintain functionality in the face of such disruptions) is a key priority for city planners. Understanding the impact of disruptions and developing strategies to mitigate them is critical to the design and management of robust transportation systems.</p>
+<p>Percolation theory provides a powerful and structured framework for studying network resilience. By systematically removing components, such as links or nodes and analyzing the resulting changes in connectivity and performance, percolation theory helps identify critical failure points and assess the robustness of a network. Recent research <span class="citation" data-cites="hamedmoghadam2021percolation">(<a href="#ref-hamedmoghadam2021percolation" role="doc-biblioref">Hamedmoghadam et al. 2021</a>)</span> has extended the application of percolation theory to heterogeneous flow demand in networks, emphasizing the functional aspects of resilience alongside structural analysis. This approach provides a more nuanced understanding of network performance under progressive disturbances, particularly in demand-side systems such as public transportation.</p>
 <p>This report builds on the work of Hamedmoghadam et al.&nbsp;(2021) and analyzes the resilience of a public transportation network under various disruption scenarios. The study incorporates quality matrices based on metrics such as travel time and betweenness centrality to evaluate the impact of link and node removals on the network’s ability to serve passenger demand. By focusing on both structural connectivity and functional performance, this research provides actionable insights into network vulnerabilities and strategies to improve resilience.</p>
 <p>This report is organized as follows: the next section introduces the theoretical foundations of percolation theory, followed by the development of quality matrices to quantify the performance of network components. The main algorithm for simulating link and node failures is then described, along with visualizations of the results. Finally, the report concludes with practical recommendations for improving the resilience of public transportation networks through strategic interventions and resource allocation.</p>
 </section>
@@ -243,7 +243,7 @@ window.Quarto = {
 <h1 data-number="2"><span class="header-section-number">2</span> Understanding the percolation Theory</h1>
 <section id="definition" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="definition"><span class="header-section-number">2.1</span> Definition</h2>
-<p>Percolation theory is a powerful framework for studying how networks maintain or lose connectivity and functionality as their components (links or nodes) degrade or fail. This theoretical model is widely used to evaluate the resilience of infrastructure networks, including transportation systems, power grids, and communication networks.</p>
+<p>Percolation theory is a powerful framework for studying how networks maintain or lose connectivity and functionality as their components (links or nodes) degrade or fail. This theoretical model is widely used to evaluate the resilience of infrastructure networks, including transportation systems, power grids and communication networks.</p>
 <p>In this study, the percolation process is modeled by progressively removing network links based on their quality. Each link is assigned a “quality” metric, denoted as <span class="math inline">\(q_{ij} \in (0,1]\)</span>, which reflects its relative performance. For example, in transportation networks, <span class="math inline">\(q_{ij}\)</span> may represent the ratio of the instantaneous travel speed to the maximum allowable speed for a road segment.</p>
 <p>The percolation process introduces a threshold <span class="math inline">\(\rho\)</span>, where all links with <span class="math inline">\(q_{ij} \leq \rho\)</span> are removed. This results in a subnetwork <span class="math inline">\(G_\rho\)</span> containing only links with quality above the threshold. By systematically increasing <span class="math inline">\(\rho\)</span> from <span class="math inline">\(0\)</span> to <span class="math inline">\(1\)</span>, the network transitions from global connectivity to fragmentation. A critical threshold <span class="math inline">\(\rho_c\)</span> emerges, indicating the point at which the largest connected component (the <em>giant component</em>, or <em>GC</em>) disintegrates into smaller, disconnected clusters. This critical threshold is a fundamental indicator of network robustness because it marks the loss of overall connectivity.</p>
 <p>While traditional percolation models focus on structural connectivity (i.e., the topological configuration of networks), this work extends this approach by incorporating heterogeneous flow demand. This recognizes that in demand-driven networks such as public transportation, passenger or data flow between origin-destination (O-D) pairs is not evenly distributed. Even after the giant component collapses, a significant portion of the demand may still be feasible if critical paths persist within the fragmented network.</p>
@@ -269,7 +269,7 @@ window.Quarto = {
 <li><strong>Flow Dynamics:</strong> Evaluates how disruptions affect the network’s ability to support flows (e.g., passenger movement, data transfer).</li>
 </ol>
 <p>This study’s focus on heterogeneous flow demand highlights the importance of resilience beyond structural connectivity. While global connectivity may collapse at a critical threshold, a significant portion of flow demand may still be served by smaller, high-quality subnetworks. This distinction is essential for real-world applications, where maintaining service for critical flows is often more important than maintaining full connectivity.</p>
-<p>In addition, percolation theory makes it possible to identify bottleneck components-critical links or nodes whose failure disproportionately affects network functionality. Targeted interventions, such as increasing redundancy or hardening these bottlenecks, can significantly improve resilience. For example, in a public transportation network, bottleneck analysis can guide investments to increase capacity, improve connectivity, or reduce vulnerability.</p>
+<p>In addition, percolation theory makes it possible to identify bottleneck components: critical links or nodes whose failure disproportionately affects network functionality. Targeted interventions, such as increasing redundancy or hardening these bottlenecks, can significantly improve resilience. For example, in a public transportation network, bottleneck analysis can guide investments to increase capacity, improve connectivity, or reduce vulnerability.</p>
 <p>In summary, percolation theory provides a comprehensive and practical framework for assessing and improving the resilience of infrastructure networks. By integrating structural and functional perspectives, it provides valuable insights for designing robust systems that can withstand and adapt to disruptions.</p>
 </section>
 </section>
@@ -300,7 +300,7 @@ window.Quarto = {
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">wAdj</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">wAdj</span><span class="op">,</span> <span class="va">wAdj</span><span class="op">'</span>)<span class="op">;</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
-<li><strong>Input:</strong>
+<li><strong>Inputs:</strong>
 <ul>
 <li>ROUTES: A cell array specifying the sequence of stops for each route.</li>
 <li>TravelLinkTime: A cell array specifying the travel times between consecutive stops.</li>
@@ -679,7 +679,7 @@ Figure&nbsp;1: Plot of the percolation process using different quality matrices
 \text{Area}(a) \;=\; \frac{0.4565 + 0.5790}{2} \;=\; 0.51775 \;\approx\; \mathbf{0.518}.
 \tag{3}\]</span></span></p>
 <p><span id="eq-alpha-b"><span class="math display">\[
-\text{Area}(b) \;=\; \frac{0.409 + 0.529}{2} \;=\; 0.469.
+\text{Area}(b) \;=\; \frac{0.409 + 0.529}{2} \;=\; 0.469 \;\approx\; \mathbf{0.469}.
 \tag{4}\]</span></span></p>
 <p><span id="eq-alpha-c"><span class="math display">\[
 \text{Area}(c) \;=\; \frac{0.497 + 0.612}{2} \;=\; 0.5545 \;\approx\; \mathbf{0.555}.
@@ -758,59 +758,53 @@ Figure&nbsp;2: Plot of the percolation process using different quality matrices
 </div>
 <p><a href="#fig-node-failures" class="quarto-xref">Figure&nbsp;2</a> illustrates the impact of node failures on the network’s ability to meet passenger demand. Two scenarios are shown:</p>
 <ol type="1">
-<li><strong>Low to High Betweenness Centrality Removal (blue curve):</strong></li>
-</ol>
+<li><p><strong>Low-to-High Betweenness Centrality Removal (blue curve):</strong></p>
 <ul>
 <li>In this scenario, nodes are removed in order of increasing betweenness centrality.</li>
 <li>The curve shows a gradual decrease in network performance as less critical nodes are removed first.</li>
 <li>The network maintains a higher fraction of feasible passenger demand during the early stages of node removal, indicating its ability to withstand the failure of less critical nodes without significant loss of functionality.</li>
 <li>However, as critical nodes (those with higher betweenness centrality) are eventually removed, the decline in passenger demand becomes more pronounced.</li>
-</ul>
-<ol start="2" type="1">
-<li><strong>High to Low Betweenness Centrality Removal (orange curve):</strong></li>
-</ol>
+</ul></li>
+<li><p><strong>High-to-Low Betweenness Centrality Removal (red curve):</strong></p>
 <ul>
 <li>In this scenario, nodes are removed in order of decreasing betweenness centrality, starting with the most critical nodes.</li>
 <li>The curve shows a sharp and immediate drop in network performance as the removal of high centrality nodes disrupts key pathways in the network.</li>
 <li>The network becomes significantly less resilient, with passenger demand dropping rapidly as critical nodes are removed early in the process.</li>
-</ul>
+</ul></li>
+</ol>
 <p>The key findings from the node failure analysis are as follows:</p>
 <ol type="1">
-<li><strong>Impact of Node Importance:</strong></li>
-</ol>
+<li><p><strong>Impact of Node Importance:</strong></p>
 <ul>
 <li>The stark difference between the two curves highlights the importance of high-centrality nodes in maintaining network functionality.</li>
 <li>Protecting these critical nodes is essential to maintaining passenger demand during disruptions.</li>
-</ul>
-<ol start="2" type="1">
-<li><strong>Resilience to non-critical failures:</strong></li>
-</ol>
+</ul></li>
+<li><p><strong>Resilience to non-critical failures:</strong></p>
 <ul>
 <li>The gradual decline observed in the low-to-high removal scenario underscores the robustness of the network to the failure of non-critical nodes.</li>
 <li>This suggests that the network can continue to function effectively even as peripheral or less connected nodes are removed.</li>
-</ul>
-<ol start="3" type="1">
-<li><strong>Vulnerability to targeted attacks:</strong></li>
-</ol>
+</ul></li>
+<li><p><strong>Vulnerability to targeted attacks:</strong></p>
 <ul>
 <li>The sharp decrease in the high-to-low removal scenario reveals the vulnerability of the network to targeted attacks on critical nodes.</li>
 <li>This underscores the need for strategic planning and hardening of high-centrality nodes to increase resilience.</li>
-</ul>
+</ul></li>
+</ol>
 <p>The following practical recommendations can be derived from the analysis of node failures:</p>
 <ol type="1">
-<li><strong>Prioritize high-centrality nodes:</strong>: The analysis shows the outsized impact of high-centrality nodes on network performance. Allocating resources to protect or add redundancy for these nodes can significantly improve resiliency.</li>
-<li><strong>Adaptive Response Strategies:</strong>: Real-time monitoring of node centrality metrics can support adaptive responses to disruptions, such as rerouting passenger flows or prioritizing restoration of high-centrality nodes.</li>
-<li><strong>Designing Robust Networks:</strong>: Incorporating redundancy into paths that include high-centrality nodes can mitigate the risk of network fragmentation due to their failure.</li>
+<li><strong>Prioritize high-centrality nodes:</strong> The analysis shows the outsized impact of high-centrality nodes on network performance. Allocating resources to protect or add redundancy for these nodes can significantly improve resiliency.</li>
+<li><strong>Adaptive Response Strategies:</strong> Real-time monitoring of node centrality metrics can support adaptive responses to disruptions, such as rerouting passenger flows or prioritizing restoration of high-centrality nodes.</li>
+<li><strong>Designing Robust Networks:</strong> Incorporating redundancy into paths that include high-centrality nodes can mitigate the risk of network fragmentation due to their failure.</li>
 </ol>
 <p>This analysis provides actionable insights for transportation network planners, guiding strategies to improve network resilience to both random failures and targeted attacks on critical nodes.</p>
 </section>
 <section id="about-resilience" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="about-resilience"><span class="header-section-number">5.3</span> About resilience</h2>
-<p>The analysis of the public transportation network using percolation theory provides valuable insights into its resilience under various link and node failure scenarios. The study highlights the network’s ability to maintain functionality despite disruptions, as well as its vulnerability to targeted failures of critical components. The resilience of the network is evident in the gradual degradation of performance as non-critical links or nodes are removed, particularly in scenarios where components are removed in increasing order of importance, such as low to high betweenness centrality. This demonstrates the robustness of the network to small perturbations that do not significantly affect its overall connectivity.</p>
-<p>However, the vulnerability of the network becomes apparent when critical components are targeted. The rapid performance degradation observed when removing high to low betweenness centrality highlights the disproportionate importance of certain nodes and links. These high-centrality components serve as bottlenecks, and their failure results in significant fragmentation and loss of functionality. This vulnerability underscores the need for targeted interventions to strengthen these critical points and ensure the overall resilience of the network.</p>
+<p>The analysis of the public transportation network using percolation theory provides valuable insights into its resilience under various link and node failure scenarios. The study highlights the network’s ability to maintain functionality despite disruptions, as well as its vulnerability to targeted failures of critical components. The resilience of the network is evident in the gradual degradation of performance as non-critical links or nodes are removed, particularly in scenarios where components are removed in increasing order of importance, such as low-to-high betweenness centrality. This demonstrates the robustness of the network to small perturbations that do not significantly affect its overall connectivity.</p>
+<p>However, the vulnerability of the network becomes apparent when critical components are targeted. The rapid performance degradation observed when removing high-to-low betweenness centrality highlights the disproportionate importance of certain nodes and links. These high-centrality components serve as bottlenecks and their failure results in significant fragmentation and loss of functionality. This vulnerability underscores the need for targeted interventions to strengthen these critical points and ensure the overall resilience of the network.</p>
 <p>The use of quality matrices, particularly those based on betweenness centrality, underscores the importance of identifying and prioritizing critical network components. The highest alpha value (<span class="math inline">\(\alpha_c = 0.555\)</span>) obtained in the betweenness centrality-based percolation scenario reflects the improved performance of the network when these critical links are preserved. On the other hand, the inverse travel-time-based quality matrix, which resulted in a lower alpha value (<span class="math inline">\(\alpha_b = 0.469\)</span>), demonstrates the challenges posed by the uneven distribution of link quality. These results indicate that resilience is not only a function of connectivity, but also depends on the strategic allocation of resources and prioritization of critical components.</p>
 <p>Analysis of node failures further reveals the network’s reliance on high-centrality nodes to maintain global connectivity. The severe performance degradation during targeted node removals underscores the importance of protecting these critical nodes. By reinforcing or introducing redundancies for high-centrality nodes, network planners can significantly improve the resilience of the transport system to both random failures and targeted attacks.</p>
-<p>In conclusion, the study highlights the importance of designing resilient public transportation networks by balancing structural robustness with functional efficiency. The findings demonstrate the critical role of quality metrics and targeted strategies to mitigate the impact of disruptions, ensure service continuity, and maintain passenger demand during adverse events. This comprehensive assessment provides a basis for informed decision-making and strategic planning to improve the resilience of urban infrastructure systems.</p>
+<p>In conclusion, the study highlights the importance of designing resilient public transportation networks by balancing structural robustness with functional efficiency. The findings demonstrate the critical role of quality metrics and targeted strategies to mitigate the impact of disruptions, ensure service continuity and maintain passenger demand during adverse events. This comprehensive assessment provides a basis for informed decision-making and strategic planning to improve the resilience of urban infrastructure systems.</p>
 </section>
 </section>
 <section id="references" class="level1" data-number="6">

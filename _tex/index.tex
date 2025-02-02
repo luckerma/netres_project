@@ -260,7 +260,7 @@ maintaining functionality.
 \section{Introduction}\label{introduction}
 
 Public transportation networks are essential for enabling urban
-mobility, connecting people to jobs, schools, health care, and other
+mobility, connecting people to jobs, schools, health care and other
 essential services. However, these networks are vulnerable to
 disruptions caused by congestion, accidents, maintenance issues, or
 targeted attacks. Ensuring their resilience (the ability to maintain
@@ -271,16 +271,15 @@ robust transportation systems.
 
 Percolation theory provides a powerful and structured framework for
 studying network resilience. By systematically removing components, such
-as links or nodes, and analyzing the resulting changes in connectivity
+as links or nodes and analyzing the resulting changes in connectivity
 and performance, percolation theory helps identify critical failure
-points and assess the robustness of a network. Recent research by
-Hamedmoghadam et al.~(2021) has extended the application of percolation
-theory to heterogeneous flow demand in networks, emphasizing the
-functional aspects of resilience alongside structural analysis
-(\citeproc{ref-hamedmoghadam2021percolation}{Hamedmoghadam et al.
-2021}). This approach provides a more nuanced understanding of network
-performance under progressive disturbances, particularly in demand-side
-systems such as public transportation.
+points and assess the robustness of a network. Recent research
+(\citeproc{ref-hamedmoghadam2021percolation}{Hamedmoghadam et al. 2021})
+has extended the application of percolation theory to heterogeneous flow
+demand in networks, emphasizing the functional aspects of resilience
+alongside structural analysis. This approach provides a more nuanced
+understanding of network performance under progressive disturbances,
+particularly in demand-side systems such as public transportation.
 
 This report builds on the work of Hamedmoghadam et al.~(2021) and
 analyzes the resilience of a public transportation network under various
@@ -309,7 +308,7 @@ Percolation theory is a powerful framework for studying how networks
 maintain or lose connectivity and functionality as their components
 (links or nodes) degrade or fail. This theoretical model is widely used
 to evaluate the resilience of infrastructure networks, including
-transportation systems, power grids, and communication networks.
+transportation systems, power grids and communication networks.
 
 In this study, the percolation process is modeled by progressively
 removing network links based on their quality. Each link is assigned a
@@ -411,7 +410,7 @@ maintaining service for critical flows is often more important than
 maintaining full connectivity.
 
 In addition, percolation theory makes it possible to identify bottleneck
-components-critical links or nodes whose failure disproportionately
+components: critical links or nodes whose failure disproportionately
 affects network functionality. Targeted interventions, such as
 increasing redundancy or hardening these bottlenecks, can significantly
 improve resilience. For example, in a public transportation network,
@@ -466,7 +465,7 @@ computing various quality metrics.
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Input:}
+  \textbf{Inputs:}
 
   \begin{itemize}
   \tightlist
@@ -1122,7 +1121,7 @@ feasible throughout the percolation process.
 }\end{equation}
 
 \begin{equation}\phantomsection\label{eq-alpha-b}{
-\text{Area}(b) \;=\; \frac{0.409 + 0.529}{2} \;=\; 0.469.
+\text{Area}(b) \;=\; \frac{0.409 + 0.529}{2} \;=\; 0.469 \;\approx\; \mathbf{0.469}.
 }\end{equation}
 
 \begin{equation}\phantomsection\label{eq-alpha-c}{
@@ -1260,108 +1259,89 @@ shown:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
-  \textbf{Low to High Betweenness Centrality Removal (blue curve):}
+  \textbf{Low-to-High Betweenness Centrality Removal (blue curve):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In this scenario, nodes are removed in order of increasing
+    betweenness centrality.
+  \item
+    The curve shows a gradual decrease in network performance as less
+    critical nodes are removed first.
+  \item
+    The network maintains a higher fraction of feasible passenger demand
+    during the early stages of node removal, indicating its ability to
+    withstand the failure of less critical nodes without significant
+    loss of functionality.
+  \item
+    However, as critical nodes (those with higher betweenness
+    centrality) are eventually removed, the decline in passenger demand
+    becomes more pronounced.
+  \end{itemize}
+\item
+  \textbf{High-to-Low Betweenness Centrality Removal (red curve):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In this scenario, nodes are removed in order of decreasing
+    betweenness centrality, starting with the most critical nodes.
+  \item
+    The curve shows a sharp and immediate drop in network performance as
+    the removal of high centrality nodes disrupts key pathways in the
+    network.
+  \item
+    The network becomes significantly less resilient, with passenger
+    demand dropping rapidly as critical nodes are removed early in the
+    process.
+  \end{itemize}
 \end{enumerate}
-
-\begin{itemize}
-\tightlist
-\item
-  In this scenario, nodes are removed in order of increasing betweenness
-  centrality.
-\item
-  The curve shows a gradual decrease in network performance as less
-  critical nodes are removed first.
-\item
-  The network maintains a higher fraction of feasible passenger demand
-  during the early stages of node removal, indicating its ability to
-  withstand the failure of less critical nodes without significant loss
-  of functionality.
-\item
-  However, as critical nodes (those with higher betweenness centrality)
-  are eventually removed, the decline in passenger demand becomes more
-  pronounced.
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  \textbf{High to Low Betweenness Centrality Removal (orange curve):}
-\end{enumerate}
-
-\begin{itemize}
-\tightlist
-\item
-  In this scenario, nodes are removed in order of decreasing betweenness
-  centrality, starting with the most critical nodes.
-\item
-  The curve shows a sharp and immediate drop in network performance as
-  the removal of high centrality nodes disrupts key pathways in the
-  network.
-\item
-  The network becomes significantly less resilient, with passenger
-  demand dropping rapidly as critical nodes are removed early in the
-  process.
-\end{itemize}
 
 The key findings from the node failure analysis are as follows:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
   \textbf{Impact of Node Importance:}
-\end{enumerate}
 
-\begin{itemize}
-\tightlist
-\item
-  The stark difference between the two curves highlights the importance
-  of high-centrality nodes in maintaining network functionality.
-\item
-  Protecting these critical nodes is essential to maintaining passenger
-  demand during disruptions.
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
+  \begin{itemize}
+  \tightlist
+  \item
+    The stark difference between the two curves highlights the
+    importance of high-centrality nodes in maintaining network
+    functionality.
+  \item
+    Protecting these critical nodes is essential to maintaining
+    passenger demand during disruptions.
+  \end{itemize}
 \item
   \textbf{Resilience to non-critical failures:}
-\end{enumerate}
 
-\begin{itemize}
-\tightlist
-\item
-  The gradual decline observed in the low-to-high removal scenario
-  underscores the robustness of the network to the failure of
-  non-critical nodes.
-\item
-  This suggests that the network can continue to function effectively
-  even as peripheral or less connected nodes are removed.
-\end{itemize}
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
+  \begin{itemize}
+  \tightlist
+  \item
+    The gradual decline observed in the low-to-high removal scenario
+    underscores the robustness of the network to the failure of
+    non-critical nodes.
+  \item
+    This suggests that the network can continue to function effectively
+    even as peripheral or less connected nodes are removed.
+  \end{itemize}
 \item
   \textbf{Vulnerability to targeted attacks:}
-\end{enumerate}
 
-\begin{itemize}
-\tightlist
-\item
-  The sharp decrease in the high-to-low removal scenario reveals the
-  vulnerability of the network to targeted attacks on critical nodes.
-\item
-  This underscores the need for strategic planning and hardening of
-  high-centrality nodes to increase resilience.
-\end{itemize}
+  \begin{itemize}
+  \tightlist
+  \item
+    The sharp decrease in the high-to-low removal scenario reveals the
+    vulnerability of the network to targeted attacks on critical nodes.
+  \item
+    This underscores the need for strategic planning and hardening of
+    high-centrality nodes to increase resilience.
+  \end{itemize}
+\end{enumerate}
 
 The following practical recommendations can be derived from the analysis
 of node failures:
@@ -1370,17 +1350,17 @@ of node failures:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  \textbf{Prioritize high-centrality nodes:}: The analysis shows the
+  \textbf{Prioritize high-centrality nodes:} The analysis shows the
   outsized impact of high-centrality nodes on network performance.
   Allocating resources to protect or add redundancy for these nodes can
   significantly improve resiliency.
 \item
-  \textbf{Adaptive Response Strategies:}: Real-time monitoring of node
+  \textbf{Adaptive Response Strategies:} Real-time monitoring of node
   centrality metrics can support adaptive responses to disruptions, such
   as rerouting passenger flows or prioritizing restoration of
   high-centrality nodes.
 \item
-  \textbf{Designing Robust Networks:}: Incorporating redundancy into
+  \textbf{Designing Robust Networks:} Incorporating redundancy into
   paths that include high-centrality nodes can mitigate the risk of
   network fragmentation due to their failure.
 \end{enumerate}
@@ -1399,15 +1379,15 @@ vulnerability to targeted failures of critical components. The
 resilience of the network is evident in the gradual degradation of
 performance as non-critical links or nodes are removed, particularly in
 scenarios where components are removed in increasing order of
-importance, such as low to high betweenness centrality. This
+importance, such as low-to-high betweenness centrality. This
 demonstrates the robustness of the network to small perturbations that
 do not significantly affect its overall connectivity.
 
 However, the vulnerability of the network becomes apparent when critical
 components are targeted. The rapid performance degradation observed when
-removing high to low betweenness centrality highlights the
+removing high-to-low betweenness centrality highlights the
 disproportionate importance of certain nodes and links. These
-high-centrality components serve as bottlenecks, and their failure
+high-centrality components serve as bottlenecks and their failure
 results in significant fragmentation and loss of functionality. This
 vulnerability underscores the need for targeted interventions to
 strengthen these critical points and ensure the overall resilience of
@@ -1437,7 +1417,7 @@ In conclusion, the study highlights the importance of designing
 resilient public transportation networks by balancing structural
 robustness with functional efficiency. The findings demonstrate the
 critical role of quality metrics and targeted strategies to mitigate the
-impact of disruptions, ensure service continuity, and maintain passenger
+impact of disruptions, ensure service continuity and maintain passenger
 demand during adverse events. This comprehensive assessment provides a
 basis for informed decision-making and strategic planning to improve the
 resilience of urban infrastructure systems.
