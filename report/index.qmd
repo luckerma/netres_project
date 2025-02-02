@@ -24,16 +24,16 @@ execute:
   include: true
 
 abstract: |
-  This report examines the resilience of public transportation networks using percolation theory to evaluate the impact of link and node failures. Quality matrices based on metrics like travel time and betweenness centrality are used to simulate disruptions and assess the network's ability to sustain passenger demand. The analysis highlights the vulnerability of critical components, emphasizing the need for strategic interventions such as reinforcing high-centrality nodes and links. Findings provide actionable insights for designing robust transportation systems capable of withstanding disruptions while maintaining functionality.
+  This report examines the resilience of public transportation networks using percolation theory to evaluate the impact of link and node failures. Quality matrices based on metrics such as travel time and betweenness centrality are used to simulate disruptions and assess the network's ability to sustain passenger demand. The analysis reveals the vulnerability of critical components and highlights the need for strategic interventions such as strengthening high-centrality nodes and links. The results provide actionable insights for designing robust transportation systems capable of withstanding disruptions while maintaining functionality.
 ---
 
 # Introduction
 
-Public transportation networks are essential for enabling urban mobility, connecting people to workplaces, schools, healthcare and other critical services. These networks, however, are vulnerable to disruptions caused by congestion, accidents, maintenance issues, or targeted attacks. Ensuring their resilience the ability to maintain functionality despite such disruptions is a key priority for urban planners. Understanding the impact of failures and devising strategies to mitigate them is critical for the design and management of robust transportation systems.
+Public transportation networks are essential for enabling urban mobility, connecting people to jobs, schools, health care, and other essential services. However, these networks are vulnerable to disruptions caused by congestion, accidents, maintenance issues, or targeted attacks. Ensuring their resilience (the ability to maintain functionality in the face of such disruptions) is a key priority for city planners. Understanding the impact of disruptions and developing strategies to mitigate them is critical to the design and management of robust transportation systems.
 
-Percolation theory provides a powerful and structured framework for studying the resilience of networks. By systematically removing components, such as links or nodes and analyzing the resulting changes in connectivity and performance, percolation theory helps identify critical points of failure and assess the robustness of a network. Recent research by Hamedmoghadam et al. (2021) has expanded the application of percolation theory to include heterogeneous flow demand in networks, emphasizing the functional aspects of resilience alongside structural analysis [@hamedmoghadam2021percolation]. This approach provides a more nuanced understanding of network performance under progressive disruptions, particularly in demand-serving systems such as public transportation.
+Percolation theory provides a powerful and structured framework for studying network resilience. By systematically removing components, such as links or nodes, and analyzing the resulting changes in connectivity and performance, percolation theory helps identify critical failure points and assess the robustness of a network. Recent research by Hamedmoghadam et al. (2021) has extended the application of percolation theory to heterogeneous flow demand in networks, emphasizing the functional aspects of resilience alongside structural analysis [@hamedmoghadam2021percolation]. This approach provides a more nuanced understanding of network performance under progressive disturbances, particularly in demand-side systems such as public transportation.
 
-In this report, we build upon the work of Hamedmoghadam et al. (2021) to analyze the resilience of a public transportation network under different failure scenarios. The study incorporates quality matrices based on metrics such as travel time and betweenness centrality to evaluate the impact of link and node removals on the network's ability to serve passenger demand. By focusing on both structural connectivity and functional performance, this research provides actionable insights into network vulnerabilities and strategies to enhance resilience.
+This report builds on the work of Hamedmoghadam et al. (2021) and analyzes the resilience of a public transportation network under various disruption scenarios. The study incorporates quality matrices based on metrics such as travel time and betweenness centrality to evaluate the impact of link and node removals on the network's ability to serve passenger demand. By focusing on both structural connectivity and functional performance, this research provides actionable insights into network vulnerabilities and strategies to improve resilience.
 
 This report is organized as follows: the next section introduces the theoretical foundations of percolation theory, followed by the development of quality matrices to quantify the performance of network components. The main algorithm for simulating link and node failures is then described, along with visualizations of the results. Finally, the report concludes with practical recommendations for improving the resilience of public transportation networks through strategic interventions and resource allocation.
 
@@ -41,48 +41,48 @@ This report is organized as follows: the next section introduces the theoretical
 
 ## Definition
 
-Percolation theory is a powerful framework for studying how networks maintain or lose connectivity and functionality as their components (links or nodes) degrade or fail. This theoretical model is widely used to evaluate the resilience of infrastructure networks, including transportation systems, power grids and communication networks.
+Percolation theory is a powerful framework for studying how networks maintain or lose connectivity and functionality as their components (links or nodes) degrade or fail. This theoretical model is widely used to evaluate the resilience of infrastructure networks, including transportation systems, power grids, and communication networks.
 
-In this study, the percolation process is modeled by progressively removing network links based on their quality. Each link is assigned a "quality" metric, denoted as $q_{ij} \in (0,1]$, which reflects its relative performance. For instance, in transportation networks, $q_{ij}$ can represent the ratio of instantaneous travel speed to the maximum allowable speed for a road segment.
+In this study, the percolation process is modeled by progressively removing network links based on their quality. Each link is assigned a "quality" metric, denoted as $q_{ij} \in (0,1]$, which reflects its relative performance. For example, in transportation networks, $q_{ij}$ may represent the ratio of the instantaneous travel speed to the maximum allowable speed for a road segment.
 
-The percolation process introduces a threshold $\rho$, where all links with $q_{ij} \leq \rho$ are removed. This results in a subnetwork $G_\rho$, containing only links with quality above the threshold. By increasing $\rho$ systematically from $0$ to $1$, the network transitions from global connectivity to fragmentation. A critical threshold $\rho_c$ emerges, indicating the point where the largest connected component (the giant component, or GC) disintegrates into smaller disconnected clusters. This critical threshold is a fundamental indicator of network robustness, as it marks the loss of overall connectivity.
+The percolation process introduces a threshold $\rho$, where all links with $q_{ij} \leq \rho$ are removed. This results in a subnetwork $G_\rho$ containing only links with quality above the threshold. By systematically increasing $\rho$ from $0$ to $1$, the network transitions from global connectivity to fragmentation. A critical threshold $\rho_c$ emerges, indicating the point at which the largest connected component (the _giant component_, or _GC_) disintegrates into smaller, disconnected clusters. This critical threshold is a fundamental indicator of network robustness because it marks the loss of overall connectivity.
 
-While traditional percolation models focus on structural connectivity (i.e., the topological configuration of networks), the provided paper extends this approach by incorporating heterogeneous flow demand. This recognizes that, in demand-serving networks like public transportation, passenger or data flow between origin-destination (O-D) pairs is not evenly distributed. Even after the giant component collapses, a significant portion of demand may remain feasible if critical paths persist within the fragmented network.
+While traditional percolation models focus on structural connectivity (i.e., the topological configuration of networks), this work extends this approach by incorporating heterogeneous flow demand. This recognizes that in demand-driven networks such as public transportation, passenger or data flow between origin-destination (O-D) pairs is not evenly distributed. Even after the giant component collapses, a significant portion of the demand may still be feasible if critical paths persist within the fragmented network.
 
-To assess network performance during the percolation process, two metrics are introduced:
+Two metrics are introduced to evaluate network performance during the percolation process:
 
-1. **Unaffected Demand (UD):** The proportion of flow demand that remains feasible as links are removed.
-2. **Reliability Metric ($\alpha$):** The area under the curve of unaffected demand plotted against the threshold $\rho$. This provides a comprehensive measure of the network's ability to sustain flow demand during the degradation process.
+1. **Unaffected Demand (UD):** The fraction of flow demand that remains feasible when links are removed.
+2. **Reliability Metric ($\alpha$):** The area under the unaffected demand curve plotted against the threshold $\rho$. This provides a comprehensive measure of the network's ability to sustain flow demand during the degradation process.
 
-By combining structural analysis with flow dynamics, percolation theory enables the identification of critical links (bottlenecks) whose failure significantly impacts network performance. This holistic perspective informs strategic interventions to enhance the connectivity and reliability of critical infrastructure systems.
+By combining structural analysis with flow dynamics, percolation theory enables the identification of critical links (bottlenecks) whose failure significantly impacts network performance. This holistic perspective informs strategic interventions to improve the connectivity and reliability of critical infrastructure systems.
 
 ## Relevance
 
-Percolation theory is indispensable for understanding and improving the resilience of networks, particularly in the face of disruptions or failures. The resilience of a network refers to its ability to maintain functionality under adverse conditions, such as targeted attacks or natural degradation.
+Percolation theory is essential for understanding and improving the resilience of networks, particularly in the face of disruptions or failures. The resilience of a network refers to its ability to maintain functionality under adverse conditions, such as targeted attacks or natural degradation.
 
-This framework models disruptions by assigning a quality metric to each link and progressively removing links below a specified threshold. By simulating this systematic degradation, it becomes possible to evaluate:
+This framework models disruptions by assigning a quality metric to each link and progressively removing links below a specified threshold. By simulating this systematic degradation, it is possible to evaluate:
 
 - **Network Vulnerability:** The rate at which connectivity and functionality are lost as components fail.
-- **Critical Thresholds:** The points where global connectivity or demand flow becomes unsustainable.
+- **Critical Thresholds:** The points at which global connectivity or demand flow becomes unsustainable.
 
-In infrastructure systems, such as transportation or communication networks, disruptions can result from congestion, accidents, natural disasters, or targeted attacks. Percolation theory provides a structured method for assessing how these disruptions affect the network. The critical threshold $\rho_c$ serves as a key indicator of the network's robustness.
+In infrastructure systems such as transportation or communication networks, disruptions can result from congestion, accidents, natural disasters, or targeted attacks. Percolation theory provides a structured way to evaluate how these disruptions affect the network. The critical threshold $\rho_c$ serves as a key indicator of network robustness.
 
-A key strength of this theory lies in its ability to incorporate both structural and functional aspects of resilience:
+A key strength of this theory is its ability to incorporate both structural and functional aspects of resilience:
 
-1. **Structural Analysis:** Examines how link or node removals affect topological connectivity.
-2. **Flow Dynamics:** Evaluates how disruptions impact the network's capacity to support flows (e.g., passenger movements, data transfer).
+1. **Structural Analysis:** Examines how the removal of links or nodes affects the topological connectivity.
+2. **Flow Dynamics:** Evaluates how disruptions affect the network's ability to support flows (e.g., passenger movement, data transfer).
 
-This study's focus on heterogeneous flow demand highlights the importance of resilience beyond structural connectivity. While global connectivity may collapse at a critical threshold, a substantial portion of flow demand may still be serviceable through smaller, high-quality subnetworks. This distinction is essential for real-world applications, where maintaining service for critical flows is often more important than preserving full connectivity.
+This study's focus on heterogeneous flow demand highlights the importance of resilience beyond structural connectivity. While global connectivity may collapse at a critical threshold, a significant portion of flow demand may still be served by smaller, high-quality subnetworks. This distinction is essential for real-world applications, where maintaining service for critical flows is often more important than maintaining full connectivity.
 
-Additionally, percolation theory enables the identification of bottleneck components—critical links or nodes whose failure disproportionately impacts network functionality. Targeted interventions, such as increasing redundancy or strengthening these bottlenecks, can significantly improve resilience. For instance, in a public transportation network, bottleneck analysis can guide investments to enhance capacity, improve connectivity, or reduce vulnerability.
+In addition, percolation theory makes it possible to identify bottleneck components-critical links or nodes whose failure disproportionately affects network functionality. Targeted interventions, such as increasing redundancy or hardening these bottlenecks, can significantly improve resilience. For example, in a public transportation network, bottleneck analysis can guide investments to increase capacity, improve connectivity, or reduce vulnerability.
 
-In summary, percolation theory offers a comprehensive and practical framework for assessing and enhancing the resilience of infrastructure networks. By integrating structural and functional perspectives, it provides valuable insights for designing robust systems that can withstand and adapt to disruptions.
+In summary, percolation theory provides a comprehensive and practical framework for assessing and improving the resilience of infrastructure networks. By integrating structural and functional perspectives, it provides valuable insights for designing robust systems that can withstand and adapt to disruptions.
 
 # Computing multiple quality matrices
 
 ## Adjacency matrix
 
-The adjacency matrix ($A$) is a foundational component for representing a network. It encodes the connectivity between nodes, where each entry $A_{ij}$ indicates the presence or absence of a link between nodes $i$ and $j$. In this project, the adjacency matrix is complemented by a weight matrix ($w$), which captures the travel time along each link. Together, these matrices serve as the basis for computing various quality metrics.
+The adjacency matrix ($A$) is a fundamental component for representing a network. It encodes the connectivity between nodes, where each entry $A_{ij}$ indicates the presence or absence of a connection between nodes $i$ and $j$. In this project, the adjacency matrix is complemented by a weight matrix ($w$) that captures the travel time along each link. Together, these matrices serve as the basis for computing various quality metrics.
 
 ```matlab
 function [Adj, wAdj] = ComputeAdj2(ROUTES, TravelLinkTime, Stops)
@@ -108,20 +108,20 @@ function [Adj, wAdj] = ComputeAdj2(ROUTES, TravelLinkTime, Stops)
 end
 ```
 
-- **Inputs:**
-  - ROUTES: A cell array defining the sequence of stops for each route.
+- **Input:**
+  - ROUTES: A cell array specifying the sequence of stops for each route.
   - TravelLinkTime: A cell array specifying the travel times between consecutive stops.
   - Stops: A list of all stops in the network.
-- **Outputs:**
-  - Adj: The adjacency matrix indicating connectivity between stops.
-  - wAdj: The weight matrix representing travel times between stops.
-  - Key Features:
-- The function handles directed and undirected networks by symmetrizing the matrices.
-- The use of strcmp ensures robustness in matching stop names to their indices.
+- **Outputs:**.
+  - Adj: The adjacency matrix indicating the connectivity between stops.
+  - wAdj: The weight matrix representing the travel times between stops.
+- **Key Features:**
+    - The function handles directed and undirected networks by symmetrizing the matrices.
+    - The use of strcmp ensures robustness in matching stop names to their indices.
 
 ## Quality matrix based on Travel Time
 
-Travel time is a critical factor in evaluating link quality. The quality matrix ($q$) based on travel time assigns a quality score to each link, where $q_{ij} = \frac{1}{\text{TravelTime}_{ij}}$. Links with shorter travel times are assigned higher quality values, reflecting their efficiency.
+Travel time is a critical factor in evaluating route quality. The quality matrix ($q$) based on travel time assigns a quality score to each link, where $q_{ij} = \frac{1}{\text{TravelTime}_{ij}}$. Links with shorter travel times are assigned higher quality scores, reflecting their efficiency.
 
 ```matlab
 function [Adj, wAdj, qAdj] = ComputeAdj2(ROUTES, TravelLinkTime, Stops)
@@ -159,7 +159,7 @@ end
 
 ## Quality matrix based on inverse Travel Time
 
-The inverse travel time quality matrix normalizes $q_{ij}$ by the maximum observed travel time to ensure all values are within $(0,1]$. This metric emphasizes the relative efficiency of links.
+The inverse travel time quality matrix normalizes $q_{ij}$ by the maximum observed travel time to ensure that all values are within $(0,1]$. This metric highlights the relative efficiency of links.
 
 ```matlab
 function [Adj, wAdj, qAdj, qInverseAdj] = ComputeAdj2(ROUTES, TravelLinkTime, Stops)
@@ -202,22 +202,22 @@ function [Adj, wAdj, qAdj, qInverseAdj] = ComputeAdj2(ROUTES, TravelLinkTime, St
 end
 ```
 
-- **Normalization:** Dividing by the maximum travel time ensures all quality values fall within a consistent range.
-- **Practical Utility:** This metric is particularly useful for comparing links in large-scale networks with varying travel times.
+- **Normalization:** Dividing by the maximum travel time ensures that all quality values fall within a consistent range.
+- **Practical Utility:** This metric is particularly useful for comparing links in large networks with varying travel times.
 
 ## Quality matrix based on Betweenness centrality
 
-Betweenness centrality measures how frequently a node or link lies on the shortest paths between other nodes. In the context of transportation networks, links or nodes with high betweenness centrality are critical for maintaining connectivity, as their failure can significantly disrupt network flow.
+Betweenness centrality measures how often a node or link lies on the shortest paths between other nodes. In the context of transportation networks, links or nodes with high betweenness centrality are critical for maintaining connectivity, as their failure can significantly disrupt network flow.
 
-The quality matrix based on betweenness centrality penalizes links with higher centrality values, as these are more critical and thus represent higher risk if removed. The quality metric for a link is calculated as:
+The quality matrix based on betweenness centrality penalizes links with higher centrality values because they are more critical and therefore pose a higher risk if removed. The quality metric for a link is calculated as:
 
 $$
 q_{ij} = \frac{1}{1 + \text{EdgeBetweennessCentrality}_{ij}}
-$${eq-q-bc}
+$${#eq-q-bc}
 
-This inverse relationship ensures that links with higher betweenness centrality receive lower quality values.
+This inverse relationship (see [@eq-q-bc]) ensures that links with higher betweenness centrality will receive lower quality values.
 
-The following function computes the adjacency matrix, weight matrix and quality matrix based on betweenness centrality:
+The following function calculates the adjacency matrix, the weight matrix and the quality matrix based on the betweenness centrality:
 
 ```matlab
 function [Adj, wAdj, qAdj, qInverseAdj, qBCAdj] = ComputeAdj2(ROUTES, TravelLinkTime, Stops)
@@ -272,32 +272,27 @@ end
 ```
 
 1. **Inputs:**
-
-- ROUTES: Defines the sequence of stops for each route.
-- TravelLinkTime: Travel time between consecutive stops.
-- Stops: A list of all stops in the network.
-
+    - ROUTES: Defines the order of stops for each route.
+    - TravelLinkTime: Travel time between successive stops.
+    - Stops: A list of all the stops in the network.
 2. **Outputs:**
-
-- Adj: Symmetric adjacency matrix.
-- wAdj: Symmetric weight matrix with travel times.
-- qAdj: Quality matrix based on direct travel time.
-- qInverseAdj: Normalized quality matrix based on inverse travel time.
-- qBCAdj: Quality matrix based on edge betweenness centrality.
-
+    - Adj: Symmetric adjacency matrix.
+    - wAdj: Symmetric weight matrix with travel times.
+    - qAdj: Quality matrix based on direct travel times.
+    - qInverseAdj: Normalized quality matrix based on inverse travel time.
+    - qBCAdj: Quality matrix based on edge betweenness centrality.
 3. **Key Steps:**
+    - Betweenness Centrality Computation: Node betweenness centrality (BC) measures the importance of each node. Edge betweenness centrality (EdgesBC) is computed using a combination of node centrality values.
+    - Quality Matrix: For each link, the quality score is inversely proportional to the edge betweenness centrality, ensuring that critical links (high centrality) receive lower quality scores.
+    - Symmetry Enforcement: The quality matrix is symmetrized to ensure consistency in undirected networks.
 
-- Betweenness Centrality Computation: Node betweenness centrality (BC) measures the importance of each node. Edge betweenness centrality (EdgesBC) is computed using a combination of node centrality values.
-- Quality Matrix: For each link, the quality value is inversely proportional to the edge betweenness centrality, ensuring that critical links (high centrality) receive lower quality scores.
-- Symmetry Enforcement: The quality matrix is symmetrized to ensure consistency in undirected networks.
-
-The quality matrix based on betweenness centrality provides valuable insights into the resilience and vulnerability of a network. Links with high betweenness centrality are critical for maintaining connectivity, as they often lie on the shortest paths between multiple node pairs. Consequently, their failure can lead to significant disruptions in network functionality. By assigning lower quality scores to such critical links, this metric helps prioritize resource allocation to strengthen these vulnerabilities. For example, transportation planners can use this information to reinforce or duplicate high-risk links to ensure continuity of service. Moreover, this approach aids in the development of targeted strategies to enhance network resilience, such as identifying critical links for monitoring or maintenance. Finally, it enables the evaluation of potential impacts of link failures or targeted attacks, providing a framework for proactive decision-making to mitigate risks in critical infrastructure systems.
+The quality matrix based on betweenness centrality provides valuable insight into the resilience and vulnerability of a network. Links with high betweenness centrality are critical to maintaining connectivity because they are often located on the shortest paths between multiple pairs of nodes. Consequently, their failure can lead to significant disruptions in network functionality. By assigning lower quality scores to such critical links, this metric helps prioritize resource allocation to strengthen these weak links. For example, transportation planners can use this information to reinforce or duplicate high-risk links to ensure continuity of service. In addition, this approach helps develop targeted strategies to improve network resilience, such as identifying critical links for monitoring or maintenance. Finally, it enables assessment of the potential impact of link failures or targeted attacks, providing a framework for proactive decision making to mitigate risk in critical infrastructure systems.
 
 # Main algorithm
 
 ## Subfunction updating reachable passengers demand
 
-In a transportation network, disruptions to links (or nodes) affect the feasible flow of passengers between origin-destination (OD) pairs. The purpose of this subfunction is to update the OD matrix to reflect the current state of the network after edge removals. If a path between two nodes becomes unreachable, the corresponding demand in the OD matrix is set to zero. Additionally, the function checks if the network has become disconnected, which is crucial for determining critical thresholds in the percolation process.
+In a transportation network, disruptions to links (or nodes) affect the feasible flow of passengers between origin-destination (OD) pairs. The purpose of this subfunction is to update the OD matrix to reflect the current state of the network after edge removals. If a path between two nodes becomes inaccessible, the corresponding demand in the OD matrix is set to zero. In addition, the function checks whether the network has become disconnected, which is crucial for determining critical thresholds in the percolation process.
 
 ```matlab
 function [OD_updated, disconnected] = updateOD(OD, Adj_updated)
@@ -326,17 +321,17 @@ end
   - Adj_updated: The adjacency matrix after removing links.
 - **Outputs:**
   - OD_updated: Reflects the feasible passenger demand after considering connectivity.
-  - disconnected: Indicates whether the network has become fragmented into isolated components.
+  - disconnected: Indicates whether the network is fragmented into isolated components.
 - **Key Features:**
-  - The function utilizes the Dijkstra2 algorithm to compute the shortest paths between nodes.
-  - If no path exists between an origin and destination, the corresponding O-D demand is set to zero.
-  - The disconnected flag is triggered when any row in the O-D matrix is entirely zero, signaling that a part of the network is isolated.
+  - The function uses the Dijkstra2 algorithm to compute the shortest paths between nodes.
+  - If no path exists between an origin and a destination, the corresponding O-D requirement is set to zero.
+  - The disconnected flag is triggered when any row in the O-D matrix is completely zero, signaling that a portion of the network is disconnected.
 
-This subfunction ensures that the percolation process dynamically reflects the evolving network structure, capturing the real-time impact of link or node removals.
+This subfunction ensures that the percolation process dynamically reflects the evolving network structure and captures the real-time impact of link or node removals.
 
 ## Percolation function
 
-The percolation function drives the analysis by iteratively removing links or nodes from the network. At each step, the network's connectivity and functionality are reassessed to determine the fraction of remaining passenger demand and identify critical thresholds.
+Percolation drives the analysis by iteratively removing links or nodes from the network. At each step, the network's connectivity and functionality are reassessed to determine the fraction of remaining passenger demand and identify critical thresholds.
 
 ```matlab
 function [Proba_OD_decrease, Proba_ARC_removal, Critical_percolation_threshold] = Percolation(Qtriu, Adj, OD)
@@ -384,30 +379,31 @@ end
 
 - **Inputs:**
   - Qtriu: Quality matrix where only upper triangular values are considered (lower triangular values are set to infinity).
-  - Adj: The network's adjacency matrix.
+  - Adj: The adjacency matrix of the network.
   - OD: The origin-destination demand matrix.
 - **Outputs:**
   - Proba_OD_decrease: Proportion of passenger demand served as the network degrades.
-  - Proba_ARC_removal: Fraction of edges removed at each step.
-  - Critical_percolation_threshold: The quality threshold at which the network becomes disconnected.
+  - Proba_ARC_removal: Proportion of edges removed at each step.
+  - Critical_percolation_threshold: The quality threshold at which the network is disconnected.
 - **Key Features:**
   - At each iteration, the edge with the lowest quality is removed, simulating network degradation.
-  - The updateOD subfunction is called to reassess feasible passenger demand after each edge removal.
-  - Metrics are stored dynamically to track the network's functionality and connectivity throughout the process.
+  - The updateOD subfunction is called to reassess the feasible passenger demand after each edge removal.
+  - Metrics are dynamically stored to track network functionality and connectivity throughout the process.
 
-This algorithm provides a dynamic assessment of the network's resilience under progressive link failures. By quantifying the proportion of passenger demand that can still be served, it highlights the network's robustness at each step. The identification of the critical threshold offers a clear benchmark for evaluating the point at which the network becomes non-functional. These insights are crucial for designing robust networks and prioritizing interventions to strengthen critical components.
+This algorithm provides a dynamic assessment of the resilience of the network under progressive link failures. By quantifying the proportion of passenger demand that can still be served, it highlights the robustness of the network at each step. The identification of the critical threshold provides a clear benchmark for evaluating the point at which the network becomes inoperable. These insights are critical for designing robust networks and prioritizing interventions to strengthen critical components.
 
 ## Plotting the results on different Quality matrices
 
 ![Plot of the percolation process using different quality matrices](./resources/plot_quality_matrices.png){#fig-quality-matrices}
 
+
 [@fig-quality-matrices] illustrates the results of the percolation process under three scenarios based on different quality matrices:
 
-1. Scenario (a): Quality matrix derived from travel time ($q_{ij} = 1 / \text{TravelTime}_{ij}$).
-2. Scenario (b): Inverse quality matrix based on maximum travel time normalization.
-3. Scenario (c): Quality matrix based on edge betweenness centrality.
+1. **Scenario (a):** Quality matrix derived from travel time ($q_{ij} = 1 / \text{TravelTime}_{ij}$).
+2. **Scenario (b):** Inverse quality matrix based on maximum travel time normalization.
+3. **Scenario (c):** Quality matrix based on edge betweenness centrality.
 
-The percolation curves represent the proportion of feasible passenger demand ($\text{Proba\_OD\_decrease}$) as a function of the fraction of removed links ($\text{Proba\_ARC\_removal}$). These curves provide insights into how network functionality deteriorates with progressive link failures.
+The percolation curves represent the fraction of feasible passenger demand ($\text{Proba\_OD\_decrease}$) as a function of the fraction of links removed ($\text{Proba\_ARC\_removal}$). These curves provide insight into how network functionality degrades as link failures progress.
 
 ```matlab
 figure;
@@ -425,31 +421,26 @@ grid on;
 ```
 
 1. **Scenario (a):**
-
-- The curve shows a steady decline in feasible passenger demand as links are progressively removed.
-- The network's resilience is moderate, as demand decreases proportionally with link removal.
-
+    - The curve shows a steady decrease in feasible passenger demand as links are progressively removed.
+    - The resilience of the network is moderate because the demand decreases proportionally with the removal of links.
 2. **Scenario (b):**
-
-- The curve demonstrates a slower initial decline in demand, indicating that high-quality links (normalized by travel time) are more resilient to failures.
-- The network's performance degrades more sharply toward the latter stages of link removal.
-
+    - The curve shows a slower initial decline in demand, indicating that high quality links (normalized by travel time) are more resilient to failures.
+    - The network performance degrades more sharply in the later stages of link removal.
 3. **Scenario (c):**
+    - The curve shows the highest resilience, with demand remaining largely intact until a significant portion of links are removed.
+    - This highlights the importance of protecting links with high betweenness centrality, as their removal has a greater impact on the network.
 
-- The curve shows the highest resilience, with demand remaining largely intact until a significant portion of links are removed.
-- This highlights the importance of protecting links with high betweenness centrality, as their removal has a more substantial impact on the network.
+The comparison of the percolation scenarios highlights the following:
 
-The comparison of percolation scenarios highlights the following:
+1. **Scenario (a)** represents the baseline assessment of network robustness using direct travel time as the quality metric.
+2. **Scenario (b)** considers normalized travel times, emphasizing the relative importance of links in supporting connectivity.
+3. **Scenario (c)** emphasizes the critical role of high-centrality links in maintaining network functionality, providing a targeted approach for prioritizing interventions.
 
-1. Scenario (a) represents the baseline assessment of network robustness using direct travel time as the quality metric.
-2. Scenario (b) accounts for normalized travel times, emphasizing the relative importance of links in supporting connectivity.
-3. Scenario (c) underscores the critical role of high-centrality links in maintaining network functionality, providing a targeted approach for prioritizing interventions.
-
-These insights guide network planners in identifying and reinforcing critical components to enhance overall resilience against disruptions.
+These findings guide network planners in identifying and strengthening critical components to improve overall resilience to disruptions.
 
 ## Evaluating the Alphas
 
-The percolation process generates curves that represent the fraction of feasible passenger demand ($\text{Proba\_OD\_decrease}$) versus the fraction of removed links ($\text{Proba\_ARC\_removal}$). The alpha ($\alpha$) value is a numerical metric derived from these curves, representing the area under the curve (AUC). It provides a single measure to quantify the resilience of the network under different scenarios. A higher alpha value indicates greater resilience, as more demand remains feasible across the percolation process.
+The percolation process generates curves representing the fraction of feasible passenger demand ($\text{Proba\_OD\_decrease}$) versus the fraction of links removed ($\text{Proba\_ARC\_removal}$). The alpha value ($\alpha$) is a numerical metric derived from these curves that represents the area under the curve (AUC). It provides a single measure to quantify the resilience of the network under different scenarios. A higher alpha value indicates greater resilience, as more demand remains feasible throughout the percolation process.
 
 ```matlab
 function Alpha = manual_integration(Proba_OD_decrease, Proba_ARC_removal)
@@ -476,36 +467,36 @@ end
 
 $$
 \alpha_a = \frac{\text{Under Approximation} + \text{Over Approximation}}{2}
-$${eq-alpha}
+$${#eq-alpha}
 
 $$
 \text{Area}(a) \;=\; \frac{0.4565 + 0.5790}{2} \;=\; 0.51775 \;\approx\; \mathbf{0.518}.
-$${eq-alpha-a}
+$${#eq-alpha-a}
 
 $$
 \text{Area}(b) \;=\; \frac{0.409 + 0.529}{2} \;=\; 0.469.
-$${eq-alpha-b}
+$${#eq-alpha-b}
 
 $$
 \text{Area}(c) \;=\; \frac{0.497 + 0.612}{2} \;=\; 0.5545 \;\approx\; \mathbf{0.555}.
-$${eq-alpha-c}
+$${#eq-alpha-c}
 
-1. **Scenario (a):** The baseline scenario shows moderate resilience, with an alpha value of $0.518$. This indicates that a significant portion of passenger demand is preserved across the percolation process, but the network's resilience is not optimal.
+1. **Scenario (a):** The baseline scenario shows moderate resilience, with an alpha value of $0.518$. This indicates that a significant portion of the passenger demand is preserved throughout the percolation process, but the resilience of the network is not optimal.
 2. **Scenario (b):** The inverse quality matrix results in a lower alpha value of $0.469$, indicating less resilience. This highlights the increased vulnerability of links with low normalized quality when targeted for removal.
 3. **Scenario (c):** The highest alpha value of $0.555$ demonstrates the effectiveness of prioritizing links based on edge betweenness centrality. This approach ensures that critical links are preserved for as long as possible, maximizing network functionality under progressive failure.
 
-The evaluation of alpha values provides a quantitative measure of network resilience under different percolation scenarios. Higher alpha values indicate that the network can sustain a larger fraction of its demand despite link removals, making it more robust to disruptions. By comparing these values, planners can identify the most effective strategies for enhancing network resilience, such as prioritizing critical links with high betweenness centrality or normalizing link quality metrics for fairer distribution of failures.
+Evaluation of alpha values provides a quantitative measure of network resilience under various percolation scenarios. Higher alpha values indicate that the network can sustain a larger fraction of its demand despite link removals, making it more robust to disruptions. By comparing these values, planners can identify the most effective strategies for improving network resilience, such as prioritizing critical links with high betweenness centrality or normalizing link quality metrics for a fairer distribution of failures.
 
 # Conclusion
 
 ## Node failures
 
-Node failures represent a critical aspect of network resilience, as the removal of nodes typically impacts both their direct connections (edges) and the flow between origin-destination pairs. Analyzing node failures helps to identify bottleneck nodes that play a vital role in maintaining connectivity and network performance. This section investigates the impact of removing nodes in a systematic order, focusing on two scenarios:
+Node failures are a critical aspect of network resilience, as the removal of nodes typically affects both their direct links (edges) and the flow between origin-destination pairs. Analyzing node failures helps identify bottleneck nodes that play a critical role in maintaining connectivity and network performance. This section examines the effects of removing nodes in a systematic order, focusing on two scenarios:
 
-1. Removal of nodes based on increasing betweenness centrality.
-2. Removal of nodes based on decreasing betweenness centrality.
+1. Removing nodes based on increasing betweenness centrality.
+2. Removing nodes based on decreasing betweenness centrality.
 
-To simulate node failures, the percolation function is adapted to progressively remove nodes and their associated edges. The fraction of feasible passenger demand is recalculated at each step to assess the network's performance under node removals.
+To simulate node failures, the percolation function is adapted to progressively remove nodes and their associated edges. The fraction of feasible passenger demand is recalculated at each step to evaluate the performance of the network under node removal.
 
 ```matlab
 function [Proba_OD_decrease, Proba_NODE_removal, Critical_node] = Percolation_NodeFailures(Qtriu, Adj, OD, Node_order)
@@ -559,57 +550,57 @@ grid on;
 
 ![Plot of the percolation process using different quality matrices](./resources/plot_node_failures.png){#fig-node-failures}
 
-[@fig-node-failures] illustrates the impact of node removals on the network's ability to serve passenger demand. Two scenarios are depicted:
+[@fig-node-failures] illustrates the impact of node failures on the network's ability to meet passenger demand. Two scenarios are shown:
 
-1. **Low-to-High Betweenness Centrality Removal (blue curve):**
+1. **Low to High Betweenness Centrality Removal (blue curve):**
 
-- In this scenario, nodes are removed progressively in the order of increasing betweenness centrality.
-- The curve shows a gradual decline in network performance, as less critical nodes are removed first.
-- The network maintains a higher fraction of feasible passenger demand during the early stages of node removal, indicating its ability to withstand failures of less important nodes without significant loss of functionality.
+- In this scenario, nodes are removed in order of increasing betweenness centrality.
+- The curve shows a gradual decrease in network performance as less critical nodes are removed first.
+- The network maintains a higher fraction of feasible passenger demand during the early stages of node removal, indicating its ability to withstand the failure of less critical nodes without significant loss of functionality.
 - However, as critical nodes (those with higher betweenness centrality) are eventually removed, the decline in passenger demand becomes more pronounced.
 
-2. **High-to-Low Betweenness Centrality Removal (orange curve):**
+2. **High to Low Betweenness Centrality Removal (orange curve):**
 
-- In this scenario, nodes are removed in the order of decreasing betweenness centrality, starting with the most critical nodes.
-- The curve demonstrates a sharp and immediate drop in network performance, as the removal of high-centrality nodes disrupts key pathways in the network.
-- The network becomes significantly less resilient, with passenger demand decreasing rapidly as critical nodes are removed early in the process.
+- In this scenario, nodes are removed in order of decreasing betweenness centrality, starting with the most critical nodes.
+- The curve shows a sharp and immediate drop in network performance as the removal of high centrality nodes disrupts key pathways in the network.
+- The network becomes significantly less resilient, with passenger demand dropping rapidly as critical nodes are removed early in the process.
 
-The key insights from the analysis of node failures are as follows:
+The key findings from the node failure analysis are as follows:
 
 1. **Impact of Node Importance:**
 
 - The stark difference between the two curves highlights the importance of high-centrality nodes in maintaining network functionality.
-- Protecting these critical nodes is essential to sustaining passenger demand during disruptions.
+- Protecting these critical nodes is essential to maintaining passenger demand during disruptions.
 
-2. **Resilience to Non-Critical Failures:**
+2. **Resilience to non-critical failures:**
 
-- The gradual decline observed in the low-to-high removal scenario underscores the network's robustness to the failure of non-critical nodes.
-- This suggests that the network can continue to function effectively even when peripheral or less-connected nodes are removed.
+- The gradual decline observed in the low-to-high removal scenario underscores the robustness of the network to the failure of non-critical nodes.
+- This suggests that the network can continue to function effectively even as peripheral or less connected nodes are removed.
 
-3. **Vulnerability to Targeted Attacks:**
+3. **Vulnerability to targeted attacks:**
 
-- The sharp decline in the high-to-low removal scenario reveals the network's vulnerability to targeted attacks on critical nodes.
-- This emphasizes the need for strategic planning and reinforcement of high-centrality nodes to enhance resilience.
+- The sharp decrease in the high-to-low removal scenario reveals the vulnerability of the network to targeted attacks on critical nodes.
+- This underscores the need for strategic planning and hardening of high-centrality nodes to increase resilience.
 
 The following practical recommendations can be derived from the analysis of node failures:
 
-1. **Prioritizing High-Centrality Nodes:**: The analysis demonstrates the outsized impact of high-centrality nodes on network performance. Allocating resources to protect or add redundancies for these nodes can significantly improve resilience.
+1. **Prioritize high-centrality nodes:**: The analysis shows the outsized impact of high-centrality nodes on network performance. Allocating resources to protect or add redundancy for these nodes can significantly improve resiliency.
 2. **Adaptive Response Strategies:**: Real-time monitoring of node centrality metrics can support adaptive responses to disruptions, such as rerouting passenger flows or prioritizing restoration of high-centrality nodes.
-3. **Designing Robust Networks:**: Incorporating redundancy in pathways involving high-centrality nodes can mitigate the risk of network fragmentation due to their failure.
+3. **Designing Robust Networks:**: Incorporating redundancy into paths that include high-centrality nodes can mitigate the risk of network fragmentation due to their failure.
 
-This analysis provides actionable insights for transportation network planners, guiding strategies to enhance the network's resilience to both random failures and targeted attacks on critical nodes.
+This analysis provides actionable insights for transportation network planners, guiding strategies to improve network resilience to both random failures and targeted attacks on critical nodes.
 
 ## About resilience
 
-The analysis of the public transportation network using percolation theory provides valuable insights into its resilience under various scenarios of link and node failures. The study highlights the network's ability to maintain functionality despite disruptions, as well as its vulnerabilities to targeted failures of critical components. The resilience of the network is evident in its gradual decline in performance during non-critical link or node removals, particularly in scenarios where components are removed in increasing order of their importance, such as low-to-high betweenness centrality. This demonstrates the robustness of the network to minor disruptions that do not significantly affect its overall connectivity.
+The analysis of the public transportation network using percolation theory provides valuable insights into its resilience under various link and node failure scenarios. The study highlights the network's ability to maintain functionality despite disruptions, as well as its vulnerability to targeted failures of critical components. The resilience of the network is evident in the gradual degradation of performance as non-critical links or nodes are removed, particularly in scenarios where components are removed in increasing order of importance, such as low to high betweenness centrality. This demonstrates the robustness of the network to small perturbations that do not significantly affect its overall connectivity.
 
-However, the network's vulnerability becomes apparent when critical components are targeted. The rapid decline in performance observed during high-to-low betweenness centrality removals highlights the disproportionate importance of certain nodes and links. These high-centrality components serve as bottlenecks and their failure leads to significant fragmentation and loss of functionality. This vulnerability underscores the need for targeted interventions to reinforce these critical points and ensure the network's overall resilience.
+However, the vulnerability of the network becomes apparent when critical components are targeted. The rapid performance degradation observed when removing high to low betweenness centrality highlights the disproportionate importance of certain nodes and links. These high-centrality components serve as bottlenecks, and their failure results in significant fragmentation and loss of functionality. This vulnerability underscores the need for targeted interventions to strengthen these critical points and ensure the overall resilience of the network.
 
-The use of quality matrices, particularly those based on betweenness centrality, emphasizes the importance of identifying and prioritizing critical network components. The highest alpha value ( \alpha_c = 0.555 ) achieved in the betweenness-centrality-based percolation scenario reflects the network's enhanced performance when these critical links are preserved. On the other hand, the inverse travel-time-based quality matrix, which resulted in a lower alpha value ( \alpha_b = 0.469 ), demonstrates the challenges posed by uneven distributions of link quality. These findings indicate that resilience is not merely a function of connectivity but also depends on the strategic allocation of resources and the prioritization of critical components.
+The use of quality matrices, particularly those based on betweenness centrality, underscores the importance of identifying and prioritizing critical network components. The highest alpha value ($\alpha_c = 0.555$) obtained in the betweenness centrality-based percolation scenario reflects the improved performance of the network when these critical links are preserved. On the other hand, the inverse travel-time-based quality matrix, which resulted in a lower alpha value ($\alpha_b = 0.469$), demonstrates the challenges posed by the uneven distribution of link quality. These results indicate that resilience is not only a function of connectivity, but also depends on the strategic allocation of resources and prioritization of critical components.
 
-The analysis of node failures further reveals the network's reliance on high-centrality nodes for maintaining global connectivity. The sharp decline in performance during targeted node removals underscores the importance of safeguarding these critical nodes. By reinforcing or introducing redundancies for high-centrality nodes, network planners can significantly enhance the resilience of the transportation system to both random failures and targeted attacks.
+Analysis of node failures further reveals the network's reliance on high-centrality nodes to maintain global connectivity. The severe performance degradation during targeted node removals underscores the importance of protecting these critical nodes. By reinforcing or introducing redundancies for high-centrality nodes, network planners can significantly improve the resilience of the transport system to both random failures and targeted attacks.
 
-In conclusion, the study highlights the importance of designing resilient public transportation networks by balancing structural robustness with functional efficiency. The findings demonstrate the critical role of quality metrics and targeted strategies in mitigating the impact of disruptions, ensuring the continuity of service and maintaining passenger demand during adverse events. This comprehensive evaluation provides a foundation for informed decision-making and strategic planning to enhance the resilience of urban infrastructure systems.
+In conclusion, the study highlights the importance of designing resilient public transportation networks by balancing structural robustness with functional efficiency. The findings demonstrate the critical role of quality metrics and targeted strategies to mitigate the impact of disruptions, ensure service continuity, and maintain passenger demand during adverse events. This comprehensive assessment provides a basis for informed decision-making and strategic planning to improve the resilience of urban infrastructure systems.
 
 # References
 
